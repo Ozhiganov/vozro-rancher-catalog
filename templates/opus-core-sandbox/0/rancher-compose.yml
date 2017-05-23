@@ -1,0 +1,116 @@
+.catalog:
+    name: "sanbox-"
+    version: "default"
+    description: "Sandbox configuration"
+    questions:
+     - variable: "STACK_NAME"
+       label: "Stack name (should be same as above)"
+       description: "Name of this stack, sorry for the duplication."
+       required: true
+       type: "string"
+     - variable: "REWEBTOP_TAG"
+       label: "Webtop release"
+       description: "Specify the webtop release. All releases are available in the Opus Docker Regsitry at http://nexus.opus.webadeo.net"
+       required: true
+       type: "string"
+     - variable: "OPUS_CORE_TAG"
+       label: "Opus-Core release"
+       description: "Specify the Opus-Core release. All releases are available in the Opus Docker Regsitry at http://nexus.opus.webadeo.net"
+       required: true
+       type: "string"
+     - variable: "FILE_UPLOAD_TAG"
+       label: "File-Upload release"
+       description: "Specify the File-Upload release. All releases are available in the Opus Docker Registry at http://nexus.opus.webadeo.net"
+       required: true
+       type: "string"
+     - variable: "OPUS_ALERTING_TAG"
+       label: "Opus alerting release"
+       description: "Specify the Opus Alerting release. All releases are available in the Opus Docker Registry at http://nexus.opus.webadeo.net"
+       required: true
+       type: "string"
+     - variable: "ALLOW_BASIC_AUTH"
+       label: "Basic authentication"
+       description: "Allow basic authentication"
+       required: true
+       type: enum
+       default: true
+       options:
+         - false
+         - true
+     - variable: "TRAEFIK_ENABLE"
+       label: "Enable Traefik"
+       description: "if true, Traefik will manage the containers"
+       required: true
+       type: enum
+       default: true
+       options:
+         - false
+         - true
+     - variable: "TRAEFIK_DOMAIN"
+       label: "Traefik domain"
+       description: "Containers URL will be <service>.<stack>.<domain>"
+       required: true
+       type: enum
+       default: dev.web.opus.webadeo.net
+       options:
+         - dev.web.opus.webadeo.net
+         - ci.web.opus.webadeo.net
+         - five.web.opus.webadeo.net
+         - demo.web.opus.webadeo.net
+         - dogfood.web.opus.webadeo.net
+         - qualif.web.opus.webadeo.net
+
+couchbase:
+  scale: 1
+  health_check:
+    port: 8092
+    interval: 2000
+    initializing_timeout: 60000
+    unhealthy_threshold: 3
+    strategy: recreate
+    response_timeout: 2000
+    healthy_threshold: 2
+
+elastic:
+  scale: 1
+  health_check:
+    port: 9200
+    interval: 2000
+    initializing_timeout: 60000
+    unhealthy_threshold: 3
+    strategy: recreate
+    response_timeout: 2000
+    healthy_threshold: 2
+
+opus-core:
+  scale: 1
+  health_check:
+    port: 3000
+    interval: 2000
+    initializing_timeout: 60000
+    unhealthy_threshold: 3
+    strategy: recreate
+    response_timeout: 2000
+    healthy_threshold: 2
+
+webtop:
+  scale: 1
+  health_check:
+    port: 80
+    interval: 2000
+    initializing_timeout: 60000
+    unhealthy_threshold: 3
+    strategy: recreate
+    response_timeout: 2000
+    healthy_threshold: 2
+
+file-upload:
+  scale: 1
+  health_check:
+    port: 4000
+    interval: 2000
+    initializing_timeout: 60000
+    unhealthy_threshold: 3
+    strategy: recreate
+    response_timeout: 2000
+    healthy_threshold: 2

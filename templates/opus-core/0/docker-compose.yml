@@ -1,0 +1,33 @@
+opus-core:
+  environment:
+    CORE_URL: ${OPUS_CORE_URL}
+    COUCHBASE_HOST: ${COUCHBASE_HOST}
+    ELASTIC_HOST: ${ELASTIC_URL}
+    UPLOAD_DIRECTORY: /images
+    ALLOW_BASIC_AUTH: true
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.scheduler.affinity:host_label: opus-core=true
+    io.rancher.container.hostname_override: container_name
+  tty: true
+  log_driver: json-file
+  log_opt:
+    max-file: '2'
+    max-size: 50m
+  image: registry.opus.webadeo.net/opus-core:${OPUS_CORE_TAG}
+  stdin_open: true
+  volumes:
+  - ${MEDIA_MOUNT}:/images
+
+lb-opc:
+  ports:
+  - ${LB_OPC_PORT}:3000
+  tty: true
+  image: rancher/load-balancer-service
+  links:
+  - opus-core:opus-core
+  stdin_open: true
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.scheduler.affinity:host_label: opus-core=true
+    io.rancher.scheduler.global: 'true'

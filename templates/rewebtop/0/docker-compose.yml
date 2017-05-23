@@ -1,0 +1,16 @@
+rewebtop:
+  environment:
+    OPUS_CORE_URL: ${OPUS_CORE_URL}
+    WEBTOP_URL: http://rewebtop.${STACK_NAME}.${TRAEFIK_DOMAIN}
+    OAUTH_URL: 'http://ser52.ovh.wikeo.webadeo.net/oauth-server/oauth'
+  log_driver: json-file
+  tty: true
+  log_opt: { max-size: '50m', max-file: '2' }
+  image: registry.opus.webadeo.net/rewebtop:${REWEBTOP_TAG}
+  stdin_open: true
+  labels:
+    io.rancher.scheduler.affinity:host_label_ne: opus.ci.deploy = false
+    io.rancher.container.pull_image: always
+    traefik.enable: ${TRAEFIK_ENABLE}
+    traefik.port: 80
+    traefik.domain: ${TRAEFIK_DOMAIN}

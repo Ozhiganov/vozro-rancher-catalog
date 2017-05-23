@@ -1,0 +1,16 @@
+orchestrator:
+  environment:
+    OPI_SPRING_OPTIONS: --spring.datasource.url=jdbc:postgresql://${DB_HOST}:${DB_PORT}/opus --spring.datasource.username=opusintegration --spring.datasource.password=${DB_PASSWORD} --logging.level.=WARN --logging.level.com.adeo=${LOG_LEVEL}
+    OPI_BU: ${OPI_BU}
+    OPUS_CORE_URL: ${OPUS_CORE_URL}
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.scheduler.affinity:host_label: orchestrator=true
+    io.rancher.container.hostname_override: container_name
+  tty: true
+  image: registry.opus.webadeo.net/opi-orchestrator:${ORCHESTRATOR_TAG}
+  stdin_open: true
+  log_driver: json-file
+  log_opt:
+    max-file: '2'
+    max-size: 50m

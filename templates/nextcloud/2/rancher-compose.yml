@@ -1,0 +1,88 @@
+.catalog:
+  name: nextcloud
+  version: 11.0.3
+  description: distributed nextcloud setup
+  questions:
+    - variable: CUSTOMERDOMAIN
+      label: customer domain ($CUSTOMERDOMAIN.ftscloud.ch)
+      required: true
+      type: string
+    - variable: MYSQLDB
+      label: mysql database for nextcloud
+      required: true
+      type: string
+      default: nextcloud
+    - variable: MYSQLUSER
+      label: mysql user for nextcloud
+      required: true
+      type: string
+      default: nextcloud
+    - variable: MYSQLPASS
+      label: mysql password for nextcloud db user
+      required: true
+      type: password
+    - variable: MYSQLROOTPASS
+      label: mysql password for root user
+      required: true
+      type: password
+    - variable: NEXTCLOUDUSER
+      label: username of the default nextcloud admin user
+      required: true
+      type: string
+      default: admin
+    - variable: NEXTCLOUDPASS
+      label: password for th default nextcloud admin user
+      required: true
+      type: password
+    - variable: NEXTCLOUDDATADIR
+      label: nextcloud data directory (inside the container)
+      required: true
+      type: string
+      default: /data
+    - variable: SMTPENABLED
+      label: use smtp email
+      required: false
+      type: string
+      default: true
+    - variable: SMTPFROM
+      label: from email address for nextcloud mails
+      required: false
+      type: string
+      default: nextcloud@ftscloud.ch
+    - variable: SMTPSECURE
+      label: encrypt connection
+      required: false
+      type: string
+      default: ssl
+    - variable: SMTPAUTH
+      label: use authentication ?
+      required: false
+      type: string
+      default: true
+    - variable: SMTPHOST
+      label: smtp mail server
+      required: false
+      type: string
+      default: asmtp.mail.hostpoint.ch
+    - variable: SMTPPORT
+      label: port for smtp connection
+      required: false
+      type: string
+      default: 465
+    - variable: SMTPPASS
+      label: password for from address
+      required: false
+      type: password
+    - variable: SMTPAUTHTYPE
+      label: smtp mail server
+      required: false
+      type: string
+      default: LOGIN
+    - variable: STORAGEDRIVER
+      label: storage driver to use
+      description: we use rancher-nfs by default. if you want to use local host volumes set this to 'null'
+      required: true
+      type: string
+      default: rancher-nfs
+
+

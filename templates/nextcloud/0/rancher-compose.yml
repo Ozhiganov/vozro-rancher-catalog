@@ -1,0 +1,49 @@
+.catalog:
+  name: nextcloud
+  version: 0.0.2
+  description: distributed nextcloud setup
+  questions:
+    - variable: CUSTOMERDOMAIN
+      label: customer domain ($CUSTOMERDOMAIN.ftscloud.ch)
+      required: true
+      type: string
+    - variable: MYSQLDB
+      label: mysql database for nextcloud
+      required: true
+      type: string
+      default: nextcloud
+    - variable: MYSQLUSER
+      label: mysql user for nextcloud
+      required: true
+      type: string
+      default: nextcloud
+    - variable: MYSQLPASS
+      label: mysql password for nextcloud db user
+      required: true
+      type: password
+    - variable: MYSQLROOTPASS
+      label: mysql password for root user
+      required: true
+      type: password
+    - variable: NEXTCLOUDUSER
+      label: username of the default nextcloud admin user
+      required: true
+      type: string
+      default: admin
+    - variable: NEXTCLOUDPASS
+      label: password for th default nextcloud admin user
+      required: true
+      type: password
+    - variable: NEXTCLOUDDATADIR
+      label: nextcloud data directory (inside the container)
+      required: true
+      type: string
+      default: /data
+    - variable: STORAGEDRIVER
+      label: storage driver to use
+      description: we use rancher-nfs by default. if you want to use local host volumes set this to 'null'
+      required: true
+      type: string
+      default: rancher-nfs
+
+

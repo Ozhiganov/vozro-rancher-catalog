@@ -1,0 +1,6 @@
+name: nextcloud
+description: |
+  distributed nextcloud setup
+version: 11.0.3-3
+category: application
+maintainer: ftsystems

@@ -1,0 +1,32 @@
+.catalog:
+    name: "elk-"
+    version: "ELK"
+    description: "ELK Stack"
+    questions:
+     - variable: "TRAEFIK_DOMAIN"
+       label: "Traefik domain"
+       description: "Containers URL will be <service>.<stack>.<domain>"
+       required: true
+       type: enum
+       default:
+       options:
+         - infra.web.opus.webadeo.net
+         - dev.web.opus.webadeo.net
+         - ci.web.opus.webadeo.net
+         - five.web.opus.webadeo.net
+
+elasticsearch:
+  scale: 1
+logstash:
+  scale: 1
+kibana:
+  scale: 1
+  health_check:
+    port: 5601
+    interval: 2000
+    initializing_timeout: 60000
+    unhealthy_threshold: 3
+    strategy: recreate
+    response_timeout: 2000
+    request_line: GET "/status" "HTTP/1.0"
+    healthy_threshold: 2

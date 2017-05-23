@@ -1,0 +1,6 @@
+sid-loader:
+  image: registry.opus.webadeo.net/sid-loader:latest
+  environment:
+    CORE_URL: ${CORE_URL}
+  labels:
+    io.rancher.container.pull_image: always

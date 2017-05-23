@@ -1,0 +1,33 @@
+.catalog:
+  name: "Kanboard-Redmine"
+  version: "0.1.1"
+  description: "Kanboard Redmine"
+  uuid: kanboardredmine-0
+  minimum_rancher_version: v0.51.0
+  questions:
+      - variable: "KANBOARDREDMINE_HOST"
+        description: "Hostname to use for the KANBOARDREDMINE server"
+        label: "KANBOARDREDMINE Hostname"
+        required: true
+        default: ""
+        type: "string"
+      - variable: "VOLUME_DRIVER"
+        description: "The VOLUME driver to associate with this server (convoy-nfs,convoy-efs,convoy-ebs)"
+        label: "VOLUME Driver"
+        required: true
+        default: "convoy-nfs"
+        type: "string"
+      - variable: "VOLUME_NAME"
+        description: "The VOLUME name to associate with this server"
+        label: "VOLUME Name"
+        required: true
+        default: "KANBOARD_REDMINE"
+        type: "string"
+      - variable: "PORT"
+        description: "The Port to associate with this server"
+        label: "Port"
+        required: true
+        default: "4080"
+        type: "string"
+
+kanboardredmine:

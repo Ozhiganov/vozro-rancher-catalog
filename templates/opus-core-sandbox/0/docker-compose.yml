@@ -1,0 +1,111 @@
+couchbase:
+  log_driver: json-file
+  labels:
+    io.rancher.scheduler.affinity:host_label_ne: opus.ci.deploy = false
+    io.rancher.container.pull_image: always
+    traefik.enable: ${TRAEFIK_ENABLE}
+    traefik.port: 8092
+    traefik.domain: ${TRAEFIK_DOMAIN}
+  tty: true
+  log_opt: { max-size: '50m', max-file: '2' }
+  image: registry.opus.webadeo.net/couchbase
+  stdin_open: true
+
+elastic:
+  environment:
+    INIT_CLUSTER: '1'
+  log_driver: json-file
+  tty: true
+  log_opt: { max-size: '50m', max-file: '2' }
+  image: registry.opus.webadeo.net/elasticsearch
+  stdin_open: true
+  labels:
+    io.rancher.scheduler.affinity:host_label_ne: opus.ci.deploy = false
+    io.rancher.container.pull_image: always
+    traefik.enable: ${TRAEFIK_ENABLE}
+    traefik.port: 9200
+    traefik.domain: ${TRAEFIK_DOMAIN}
+
+opus-core:
+  environment:
+    ELASTIC_HOST: 'http://elastic:9200'
+    COUCHBASE_HOST: 'couchbase'
+    CORE_URL: 'http://localhost:3000'
+    OAUTH_URL: 'http://ser52.ovh.wikeo.webadeo.net/oauth-server/oauth/'
+    ALLOW_BASIC_AUTH: '${ALLOW_BASIC_AUTH}'
+  log_driver: json-file
+  tty: true
+  log_opt: { max-size: '50m', max-file: '2' }
+  image: registry.opus.webadeo.net/opus-core:${OPUS_CORE_TAG}
+  stdin_open: true
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.scheduler.affinity:host_label_ne: opus.ci.deploy = false
+    io.rancher.container.hostname_override: container_name
+    traefik.enable: ${TRAEFIK_ENABLE}
+    traefik.port: 3000
+    traefik.domain: ${TRAEFIK_DOMAIN}
+  links:
+  - elastic:elastic
+  - couchbase:couchbase
+
+webtop:
+  environment:
+    OPUS_CORE_URL: 'http://opus-core.${STACK_NAME}.${TRAEFIK_DOMAIN}'
+    WEBTOP_URL: 'http://webtop.${STACK_NAME}.${TRAEFIK_DOMAIN}'
+    MEDIA_URL: 'http://file-upload.${STACK_NAME}.${TRAEFIK_DOMAIN}'
+    UPLOAD_URL: 'http://file-upload.${STACK_NAME}.${TRAEFIK_DOMAIN}'
+    OAUTH_URL: 'http://ser52.ovh.wikeo.webadeo.net/oauth-server/oauth'
+    OAUTH_CLIENT_ID: webtop
+    OAUTH_CLIENT_SECRET: webtop
+    BASIC_AUTHENTICATION: '${ALLOW_BASIC_AUTH}'
+  log_driver: json-file
+  tty: true
+  log_opt: { max-size: '50m', max-file: '2' }
+  image: registry.opus.webadeo.net/rewebtop:${REWEBTOP_TAG}
+  stdin_open: true
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.scheduler.affinity:host_label_ne: opus.ci.deploy = false
+    traefik.enable: ${TRAEFIK_ENABLE}
+    traefik.port: 80
+    traefik.domain: ${TRAEFIK_DOMAIN}
+
+opus-alerting:
+  environment:
+    CORE_URL: 'http://opus-core.${STACK_NAME}.${TRAEFIK_DOMAIN}'
+    ALERTING_URL: 'http://localhost:5000'
+    COUCHBASE_HOST: 'couchbase'
+    OAUTH_URL: 'http://ser52.ovh.wikeo.webadeo.net/oauth-server/oauth'
+    ALLOW_BASIC_AUTH: 'true'
+  log_driver: json-file
+  tty: true
+  log_opt: { max-size: '50m', max-file: '2' }
+  image: registry.opus.webadeo.net/opus-alerting:${OPUS_ALERTING_TAG}
+  stdin_open: true
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.scheduler.affinity:host_label_ne: opus.ci.deploy = false
+    io.rancher.container.hostname_override: container_name
+    traefik.enable: ${TRAEFIK_ENABLE}
+    traefik.port: 5000
+    traefik.domain: ${TRAEFIK_DOMAIN}
+  links:
+  - couchbase:couchbase
+
+file-upload:
+  environment:
+    UPLOAD_DIRECTORY: '/tmp'
+    UPLOAD_URL: 'http://file-upload.${STACK_NAME}.${TRAEFIK_DOMAIN}'
+    ALLOW_BASIC_AUTH: 'true'
+  log_driver: json-file
+  tty: true
+  log_opt: { max-size: '50m', max-file: '2' }
+  image: registry.opus.webadeo.net/file-upload:${FILE_UPLOAD_TAG}
+  stdin_open: true
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.scheduler.affinity:host_label_ne: opus.ci.deploy = false
+    traefik.enable: ${TRAEFIK_ENABLE}
+    traefik.port: 4000
+    traefik.domain: ${TRAEFIK_DOMAIN}

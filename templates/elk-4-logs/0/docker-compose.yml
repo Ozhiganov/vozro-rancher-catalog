@@ -1,0 +1,27 @@
+elasticsearch:
+  image: elasticsearch:2.4.1
+  command: elasticsearch -Des.network.host=0.0.0.0
+  volumes:
+    - /docker/elk-4-logs/elastic-data:/usr/share/elasticsearch/data
+  labels:
+    io.rancher.container.pull_image: always
+logstash:
+  image: registry.opus.webadeo.net/logstash-4-logs:latest
+  labels:
+    io.rancher.scheduler.affinity:host_label: logstash=true
+    io.rancher.container.pull_image: always
+  ports:
+    - 5000:5000
+  links:
+    - elasticsearch:elastic
+kibana:
+  image: kibana:4
+  ports:
+    - 5601:5601
+  labels:
+    io.rancher.container.pull_image: always
+    traefik.enable: true
+    traefik.port: 5601
+    traefik.domain: ${TRAEFIK_DOMAIN}
+  links:
+    - elasticsearch

@@ -1,0 +1,5 @@
+name: Opus-ELK-4-Logs
+description: |
+  Simple ELK stack for Opus to receive logs
+version:
+category: ADEO Transformation

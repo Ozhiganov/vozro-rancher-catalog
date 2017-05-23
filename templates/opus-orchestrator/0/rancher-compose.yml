@@ -1,0 +1,50 @@
+.catalog:
+    name: "opus-orchestrator"
+    version: "default"
+    description: "Opus-Orchestrator"
+    questions:
+     - variable: "ORCHESTRATOR_TAG"
+       label: "Opus-Orchestrator release"
+       description: "Specify the Opus-Orchestrator release"
+       required: true
+       type: "string"
+     - variable: "DB_HOST"
+       label: "Database host"
+       description: "Specify the database host"
+       required: true
+       type: "string"
+     - variable: "DB_PORT"
+       label: "Database port"
+       description: "Specify the database port"
+       required: true
+       type: "string"
+       default: "5432"
+     - variable: "DB_PASSWORD"
+       label: "Database password"
+       description: "Specify the password for the user opusintegration"
+       required: true
+       type: "string"
+     - variable: "LOG_LEVEL"
+       label: "Log level"
+       description: "Specify the log level"
+       required: true
+       type: "string"
+       default: "WARN"
+     - variable: "OPI_BU"
+       label: "BU for OPI"
+       description: "Specify the OPI BU"
+       required: true
+       type: "enum"
+       options:
+         - BCIT
+         - LMES
+         - LMRU
+         - LMUA
+     - variable: "OPUS_CORE_URL"
+       label: "URL for OPUS Core"
+       description: "Specify the OPUS Core url"
+       required: true
+       type: "string"
+
+orchestrator:
+  scale: 1

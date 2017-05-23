@@ -1,0 +1,21 @@
+transcoder:
+  environment:
+    OPI_SPRING_OPTIONS: --spring.profiles.active=docker --spring.datasource.url=jdbc:postgresql://${DB_HOST}:${DB_PORT}/transco --spring.datasource.username=transco --spring.datasource.password=${DB_PASSWORD} --server.port=10080 --logging.level.=WARN --logging.level.com.adeo=${LOG_LEVEL}
+  log_driver: json-file
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.scheduler.affinity:host_label: transcoder=true
+  tty: true
+  log_opt:
+    max-file: '2'
+    max-size: 50m
+  image: registry.opus.webadeo.net/opi-transcoder:${TRANSCODER_TAG}
+  stdin_open: true
+lb-transcoder:
+  ports:
+  - ${LB_PORT}:10080
+  tty: true
+  image: rancher/load-balancer-service
+  links:
+  - transcoder:transcoder
+  stdin_open: true

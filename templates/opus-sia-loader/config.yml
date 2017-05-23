@@ -1,0 +1,5 @@
+name: Opus-SID-Loader
+description: |
+    Data loader for Opus-Core
+version:
+category: ADEO Transformation

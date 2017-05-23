@@ -1,0 +1,48 @@
+.catalog:
+    name: "opus-core"
+    version: "default"
+    description: "Opus-Core with load-balancer"
+    questions:
+     - variable: "LB_OPC_PORT"
+       label: "Opus-Core port"
+       description: "Specify the load balancer port of Opus-Core"
+       required: true
+       type: "string"
+     - variable: "OPUS_CORE_TAG"
+       label: "Opus-Core release"
+       description: "Specify the Opus-Core release"
+       required: true
+       type: "string"
+     - variable: "OPUS_CORE_URL"
+       label: "Opus-Core URL"
+       description: "Specify the Opus-Core URL. Used for upload/download images."
+       required: true
+       type: "string"
+     - variable: "COUCHBASE_HOST"
+       label: "Couchbase host"
+       description: "Specify the Couchbase's host"
+       required: true
+       type: "string"
+     - variable: "ELASTIC_URL"
+       label: "Elastic URL"
+       description: "Specify the ElasticSearch's URL"
+       required: true
+       type: "string"
+     - variable: "MEDIA_MOUNT"
+       label: "Media directory"
+       description: "Directory where images will be stored"
+       required: true
+       type: "string"
+
+opus-core:
+  scale: 1
+lb-opc:
+  scale: 1
+  load_balancer_config:
+    haproxy_config: {}
+  health_check:
+    port: 42
+    interval: 2000
+    unhealthy_threshold: 3
+    healthy_threshold: 2
+    response_timeout: 2000

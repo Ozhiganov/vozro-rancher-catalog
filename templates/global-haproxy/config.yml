@@ -1,0 +1,6 @@
+name: global-haproxy
+description: |
+  setup global haproxy system to forward requests to proper customer ha proxy
+version: 0.0.3
+category: application
+maintainer: ftsystems

@@ -1,0 +1,87 @@
+version: '2'
+volumes:
+  vol-database:
+    driver: ${STORAGEDRIVER}
+  vol-redis:
+    driver: ${STORAGEDRIVER}
+  vol-nextlcoud-data:
+    driver: ${STORAGEDRIVER}
+  vol-nextlcoud-config:
+    driver: ${STORAGEDRIVER}
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQLROOTPASS}
+      MYSQL_DATABASE: ${MYSQLDB}
+      MYSQL_USER: ${MYSQLUSER}
+      MYSQL_PASSWORD: ${MYSQLPASS}
+    volumes:
+      - vol-database:/var/lib/mysql
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+        max-file: 5
+    labels:
+      io.rancher.container.pull_image: always
+  redis:
+    image: redis:3.2
+    volumes:
+      - vol-redis:/data
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+        max-file: 5
+    labels:
+      io.rancher.container.pull_image: always
+  nextcloud:
+    image: ftsystems/nextcloud:11.0.3-latest
+    depends_on:
+      - db
+      - redis
+    environment:
+      NEXTCLOUD_CONFIG_CONFIGURE: yes
+      NEXTCLOUD_CONFIG_ADMIN_USER: ${NEXTCLOUDUSER}
+      NEXTCLOUD_CONFIG_ADMIN_PASSWORD: ${NEXTCLOUDPASS}
+      NEXTCLOUD_CONFIG_DATADIR: ${NEXTCLOUDDATADIR}
+      NEXTCLOUD_CONFIG_DB_TYPE: mysql
+      NEXTCLOUD_CONFIG_DB_HOST: db
+      NEXTCLOUD_CONFIG_DB_PORT: 3306
+      NEXTCLOUD_CONFIG_DB_NAME: ${MYSQLDB}
+      NEXTCLOUD_CONFIG_DB_USER: ${MYSQLUSER}
+      NEXTCLOUD_CONFIG_DB_PASSWORD: ${MYSQLPASS}
+      NEXTCLOUD_CONFIG_TRUSTEDDOMAIN: ${CUSTOMERDOMAIN}.ftscloud.ch
+      NEXTCLOUD_CONFIG_CACHE_APCU_ENABLE: true
+      NEXTCLOUD_CONFIG_CACHE_REDIS_ENABLE: true
+      NEXTCLOUD_CONFIG_CACHE_REDIS_HOST: redis
+      NEXTCLOUD_CONFIG_CACHE_REDIS_PORT: 6379
+      NEXTCLOUD_CONFIG_PHP_SESSION_SAVEHANDLER: redis
+      NEXTCLOUD_CONFIG_PHP_SESSION_SAVEPATH: tcp://redis:6379?database=10
+      NEXTCLOUD_CONFIG_SMTP_ENABLED: ${SMTPENABLED}
+      NEXTCLOUD_CONFIG_SMTP_FROM: ${SMTPFROM}
+      NEXTCLOUD_CONFIG_SMTP_SECURE: ${SMTPSECURE}
+      NEXTCLOUD_CONFIG_SMTP_AUTH: ${SMTPAUTH}
+      NEXTCLOUD_CONFIG_SMTP_HOST: ${SMTPHOST}
+      NEXTCLOUD_CONFIG_SMTP_PORT: ${SMTPPORT}
+      NEXTCLOUD_CONFIG_SMTP_PASS: ${SMTPPASS}
+      NEXTCLOUD_CONFIG_SMTP_AUTHTYPE: ${SMTPAUTHTYPE}
+      NEXTCLOUD_CONFIG_THEMING_BACKGROUNDURL: ${THEMINGBACKGROUNDURL}
+      NEXTCLOUD_CONFIG_THEMING_BACKGROUNDMIME: ${THEMINGBACKGROUNDMIME}
+      NEXTCLOUD_CONFIG_THEMING_COLOR: ${THEMINGCOLOR}
+      NEXTCLOUD_CONFIG_THEMING_LOGOURL: ${THEMINGLOGOURL}
+      NEXTCLOUD_CONFIG_THEMING_LOGOMIME: ${THEMINGLOGOMIME}
+      NEXTCLOUD_CONFIG_THEMING_NAME: ${THEMINGNAME}
+      NEXTCLOUD_CONFIG_THEMING_SLOGAN: ${THEMINGSLOGAN}
+      NEXTCLOUD_CONFIG_THEMING_URL: ${THEMINGURL}
+    volumes:
+      - vol-nextlcoud-config:/var/www
+      - vol-nextlcoud-data:${NEXTCLOUDDATADIR}
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+        max-file: 5
+    labels:
+      io.rancher.container.pull_image: always

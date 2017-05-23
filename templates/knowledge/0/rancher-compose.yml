@@ -1,0 +1,41 @@
+version: '2'
+catalog:
+  name : Knowledge
+  version : latest
+  description: "knowledge"
+  questions:    
+    - variable: knowledge_port
+      description: "knowledge port to access the knowledge"
+      label: "Knowledge Port"
+      required: true
+      default: "8080"
+      type: "int"
+    - variable: postgres_port
+      description: "postgres port to access the postgres"
+      label: "Postgres Port"
+      required: true
+      default: "5432"
+      type: "int"
+    - variable: postgres_user
+      description: "postgres user"
+      label: "Postgres User"
+      required: true
+      default: "postgres"
+      type: "string"
+    - variable: postgres_pass
+      description: "postgres pass"
+      label: "Postgres Pass"
+      required: true
+      default: "admin123"
+      type: "string"
+    - variable: postgres_db
+      description: "postgres db"
+      label: "Postgres DB"
+      required: true
+      default: "knowledge_production"
+      type: "string"
+services:
+  app:
+    scale: 1
+  db:
+    scale: 1

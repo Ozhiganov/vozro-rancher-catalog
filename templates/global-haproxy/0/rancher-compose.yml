@@ -1,0 +1,19 @@
+.catalog:
+  name: global-haproxy
+  version: 0.0.3
+  description: global haproxy
+  questions:
+    - variable: CUSTOMERS
+      label: comma separated lists of customer subdomains to route (customer1,customer2,...)
+      required: true
+      type: string
+    - variable: REDIRECT
+      label: redirect url for unknown requests
+      required: true
+      type: string
+      default: https://www.ftsystems.ch/cms/dienstleistungen/ftscloud/
+    - variable: LOGLEVEL
+      label: syslog loglevel
+      required: true
+      type: string
+      default: info

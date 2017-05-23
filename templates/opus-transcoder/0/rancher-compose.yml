@@ -1,0 +1,50 @@
+.catalog:
+    name: "opus-transcoder"
+    version: "opus-transcoder"
+    description: "Opus-Transcoder"
+    questions:
+     - variable: "TRANSCODER_TAG"
+       label: "Opus-Transcoder release"
+       description: "Specify the Opus-Transcoder release"
+       required: true
+       type: "string"
+     - variable: "LB_PORT"
+       label: "Listen port"
+       description: "Specify the port which will be listened by the load-balancer."
+       required: true
+       type: "string"
+     - variable: "DB_HOST"
+       label: "Database host"
+       description: "Specify the database host"
+       required: true
+       type: "string"
+     - variable: "DB_PORT"
+       label: "Database port"
+       description: "Specify the database port"
+       required: true
+       type: "string"
+       default: "5432"
+     - variable: "DB_PASSWORD"
+       label: "Database password"
+       description: "Specify the password for the user transco"
+       required: true
+       type: "string"
+     - variable: "LOG_LEVEL"
+       label: "Log level"
+       description: "Specify the log level"
+       required: true
+       type: "string"
+       default: "WARN"
+
+transcoder:
+  scale: 1
+lb-transcoder:
+  scale: 1
+  load_balancer_config:
+    haproxy_config: {}
+  health_check:
+    port: 42
+    interval: 2000
+    unhealthy_threshold: 3
+    healthy_threshold: 2
+    response_timeout: 2000

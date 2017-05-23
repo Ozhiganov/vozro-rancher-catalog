@@ -1,0 +1,24 @@
+elasticsearch:
+  image: elasticsearch:latest
+  command: elasticsearch -Des.network.host=0.0.0.0
+  labels:
+    io.rancher.scheduler.affinity:host_label_ne: opus.deploy = false
+    io.rancher.container.pull_image: always
+logstash:
+  image: registry.opus.webadeo.net/opus-logstash:latest
+  labels:
+    io.rancher.scheduler.affinity:host_label_ne: opus.deploy = false
+    io.rancher.container.pull_image: always
+  links:
+    - elasticsearch
+kibana:
+  image: registry.opus.webadeo.net/opus-kibana:latest
+  labels:
+    io.rancher.scheduler.affinity:host_label_ne: opus.deploy = false
+    io.rancher.container.pull_image: always
+    traefik.enable: true
+    traefik.port: 5601
+    traefik.domain: ${TRAEFIK_DOMAIN}
+  links:
+    - elasticsearch
+    - logstash

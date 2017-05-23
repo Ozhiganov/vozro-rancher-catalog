@@ -1,0 +1,16 @@
+opus-alerting:
+  environment:
+    COUCHBASE_HOST: '${COUCHBASE_HOST}'
+    CORE_URL: '${CORE_URL}'
+    OAUTH_URL: '${OAUTH_URL}'
+    ALLOW_BASIC_AUTH: 'true'
+  log_driver: json-file
+  tty: true
+  log_opt: { max-size: '50m', max-file: '2' }
+  image: registry.opus.webadeo.net/opus-alerting:${OPUS_ALERTING_TAG}
+  stdin_open: true
+  labels:
+    io.rancher.container.pull_image: always
+    traefik.enable: ${TRAEFIK_ENABLE}
+    traefik.port: 4000
+    traefik.domain: ${TRAEFIK_DOMAIN}

@@ -1,0 +1,14 @@
+publicdns:
+  image: prachidamle/external-dns:v0.11.0
+  command:
+   - -debug=true
+   - -provider=rancher-public-dns
+  expose: 
+   - 1000
+  environment:
+    RANCHER_PUBLIC_DNS_URL: ${RANCHER_PUBLIC_DNS_URL}
+    NAME_TEMPLATE: ${NAME_TEMPLATE}
+    TTL: ${TTL}
+  labels:
+    io.rancher.container.create_agent: "true"
+    io.rancher.container.agent.role: "external-dns"

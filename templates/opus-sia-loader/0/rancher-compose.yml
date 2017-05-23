@@ -1,0 +1,13 @@
+.catalog:
+    name: "SID-"
+    version: "SID-Loader"
+    description: "Data sample loader for Opus-Core"
+    questions:
+     - variable: "CORE_URL"
+       label: "Opus-Core URL"
+       description: ""
+       required: true
+       type: string
+
+sid-loader:
+  scale: 1

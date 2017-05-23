@@ -1,0 +1,5 @@
+raspberrypints:
+  image: stratolinux/pints:0.1.0
+  restart: always
+  ports:
+    - "${EXPOSED_PORT}:80"

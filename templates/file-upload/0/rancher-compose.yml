@@ -1,0 +1,56 @@
+.catalog:
+    name: "file-upload"
+    version: "default"
+    description: "Sandbox configuration"
+    questions:
+     - variable: "STACK_NAME"
+       label: "Stack name"
+       description: "Specify the name for the stack"
+       required: true
+       type: "string"
+     - variable: "FILE_UPLOAD_TAG"
+       label: "File-Upload release"
+       description: "Specify the File-Upload release. All releases are available in the Opus Docker Registry at http://nexus.opus.webadeo.net"
+       required: true
+       type: "string"
+     - variable: "ALLOW_BASIC_AUTH"
+       label: "Basic authentication"
+       description: "Allow basic authentication"
+       required: true
+       type: enum
+       default: true
+       options:
+         - false
+         - true
+     - variable: "TRAEFIK_ENABLE"
+       label: "Enable Traefik"
+       description: "if true, Traefik will manage the containers"
+       required: true
+       type: enum
+       default: true
+       options:
+         - false
+         - true
+     - variable: "TRAEFIK_DOMAIN"
+       label: "Traefik domain"
+       description: "Containers URL will be <service>.<stack>.<domain>"
+       required: true
+       type: enum
+       default: dev.web.opus.webadeo.net
+       options:
+         - dev.web.opus.webadeo.net
+         - ci.web.opus.webadeo.net
+         - five.web.opus.webadeo.net
+         - demo.web.opus.webadeo.net
+         - dogfood.web.opus.webadeo.net
+
+file-upload:
+  scale: 1
+  health_check:
+    port: 4000
+    interval: 2000
+    initializing_timeout: 60000
+    unhealthy_threshold: 3
+    strategy: recreate
+    response_timeout: 2000
+    healthy_threshold: 2

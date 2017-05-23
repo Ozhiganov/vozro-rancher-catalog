@@ -1,0 +1,50 @@
+.catalog:
+    name: "rewebtop-"
+    version: "version 0"
+    description: "ReWebtop Configuration"
+    questions:
+     - variable: "STACK_NAME"
+       label: "Stack name"
+       required: true
+       type: "string"
+     - variable: "REWEBTOP_TAG"
+       label: "Release"
+       description: "Specify the ReWebtop release. All releases are available in the Opus Docker Registry at http://nexus.opus.webadeo.net"
+       required: true
+       type: "string"
+     - variable: "OPUS_CORE_URL"
+       label: "Opus-Core URL"
+       required: true
+       type: "string"
+     - variable: "TRAEFIK_ENABLE"
+       label: "Access from Internet"
+       description: "if true, the app will be usable from Internet"
+       required: true
+       type: enum
+       default: true
+       options:
+         - false
+         - true
+     - variable: "TRAEFIK_DOMAIN"
+       label: "Internet domain"
+       description: "The URL's app will be <service>.<stack>.<domain>"
+       required: true
+       type: enum
+       default: dev.web.opus.webadeo.net
+       options:
+         - dev.web.opus.webadeo.net
+         - ci.web.opus.webadeo.net
+         - five.web.opus.webadeo.net
+         - demo.web.opus.webadeo.net
+         - dogfood.web.opus.webadeo.net
+
+rewebtop:
+  scale: 1
+  health_check:
+    port: 80
+    interval: 2000
+    initializing_timeout: 60000
+    unhealthy_threshold: 3
+    strategy: recreate
+    response_timeout: 2000
+    healthy_threshold: 2

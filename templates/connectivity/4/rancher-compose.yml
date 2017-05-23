@@ -1,0 +1,40 @@
+.catalog:
+  name: connectivity
+  version: 0.0.6
+  description: connectivity services
+  questions:
+    - variable: AWSID_LETSENCRYPT
+      label: AWS ID for letsencrypt
+      required: true
+      type: string
+    - variable: AWSKEY_LETSENCRYPT
+      label: AWS Key for letsencrypt
+      required: true
+      type: password
+    - variable: AWSID_ROUTE53
+      label: AWS ID for route53 domain setup
+      required: true
+      type: string
+    - variable: AWSKEY_ROUTE53
+      label: AWS Key for letsencrypt
+      required: true
+      type: password
+    - variable: DOMAIN_ID
+      label: AWS route53 DOMAIN ID for domain setup
+      required: true
+      type: string
+    - variable: CUSTOMERDOMAIN
+      label: customer domain ($CUSTOMERDOMAIN.ftscloud.ch)
+      required: true
+      type: string
+    - variable: DNS_VALUE
+      label: target for route53 cname entry (to which the customerdomain points to)
+      required: true
+      type: string
+    - variable: NEXTCLOUDSERVER
+      label: dns name / ip of the nextcloud server
+      description: define the ip address / hostname of the nextcloud server the haproxy points to. try to use the internal rancher dns name (service.stack.rancher.internal)
+      required: true
+      type: string
+
+

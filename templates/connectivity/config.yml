@@ -1,0 +1,6 @@
+name: connectivity
+description: |
+  setup necessary containers to enable connectivity of the customer services.
+version: 0.0.6
+category: application
+maintainer: ftsystems

@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+  proxy:
+    image: ftsystems/haproxy-global:0.0.3-latest
+    environment:
+      HAPROXY_REDIRECT: ${REDIRECT}
+      HAPROXY_CUSTOMERS: ${CUSTOMERS}
+      HAPROXY_LOG_ADDRESS: /rsyslog/dev/log
+      HAPROXY_LOG_LEVEL: ${LOGLEVEL}
+    volumes_from:
+      - rsyslogd
+    ports:
+      - "443:443"
+      - "80:80"
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+        max-file: 5
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.sidekicks: rsyslogd
+  rsyslogd:
+    image: ftsystems/rsyslogd:latest
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+        max-file: 5
+    labels:
+      io.rancher.container.pull_image: always

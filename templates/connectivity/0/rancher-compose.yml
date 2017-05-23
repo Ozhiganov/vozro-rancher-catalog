@@ -1,0 +1,30 @@
+.catalog:
+  name: connectivity
+  version: 0.0.2
+  description: connectivity services
+  questions:
+    - variable: AWSID
+      label: AWS ID for letsencrypt
+      required: true
+      type: string
+    - variable: AWSKEY
+      label: AWS Key for letsencrypt
+      required: true
+      type: password
+    - variable: CUSTOMERDOMAIN
+      label: customer domain ($CUSTOMERDOMAIN.ftscoud.ch)
+      required: true
+      type: string
+    - variable: STORAGEDRIVER
+      label: storage driver to use
+      description: we use rancher-nfs by default. if you want to use local host volumes set this to 'null'
+      required: true
+      type: string
+      default: rancher-nfs
+    - variable: NEXTCLOUDSERVER
+      label: dns name / ip of the nextcloud server
+      description: define the ip address / hostname of the nextcloud server the haproxy points to. try to use the internal rancher dns name (service.stack.rancher.internal)
+      required: true
+      type: string
+
+
